@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sales Service",
+    "description": "REST service for managing customer sales.",
+    "version": "1.0",
+    "contact": {
+      "name": "API Dev Team",
+      "email": "api@example.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Sales",
+      "description": "Operations relating to the collection of sales."
+    },
+    {
+      "name": "Sales for Customer",
+      "description": "Operations relating to the sales for a specific customer."
+    }
+  ],
+  "paths": {
+    "/sales": {
+      "post": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Add new sale",
+        "description": "Add a new sale to the system.",
+        "operationId": "add-sale",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Sale created."
+          },
+          "422": {
+            "description": "<b>Not created.</b>  A sale already exists with that sale ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all sales",
+        "operationId": "get-all-sales",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sale"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all of the sales.",
+        "tags": [
+          "Sales"
+        ]
+      }
+    },
+    "/sales/sale/{id}": {
+      "delete": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Delete a sale",
+        "description": "Delete the sale matching the given ID.",
+        "operationId": "delete-sale",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted."
+          },
+          "404": {
+            "description": "Sale not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sales/customer/{id}": {
+      "get": {
+        "tags": [
+          "Sales for Customer"
+        ],
+        "summary": "Get sales for customer",
+        "description": "Get all sales for the customer matching the given ID.",
+        "operationId": "get-sales-for-customer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sale"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sales/customer/{id}/summary": {
+      "get": {
+        "tags": [
+          "Sales for Customer"
+        ],
+        "summary": "Get sales summary for customer",
+        "description": "Get a summary of sales for the customer matching the given ID.",
+        "operationId": "get-summary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "customer_code": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "customer_group_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "first_name",
+          "last_name",
+          "customer_code",
+          "email",
+          "customer_group_id"
+        ]
+      },
+      "Sale": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sale_date": {
+            "type": "string"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "register_sale_products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SaleItem"
+            }
+          },
+          "totals": {
+            "$ref": "#/components/schemas/Totals"
+          }
+        },
+        "required": [
+          "id",
+          "sale_date",
+          "customer",
+          "register_sale_products",
+          "totals"
+        ]
+      },
+      "SaleItem": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "required": [
+          "product_id",
+          "quantity",
+          "price"
+        ]
+      },
+      "Totals": {
+        "type": "object",
+        "properties": {
+          "total_price": {
+            "type": "number",
+            "format": "double"
+          },
+          "total_tax": {
+            "type": "number",
+            "format": "double"
+          },
+          "total_payment": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "required": [
+          "total_price",
+          "total_tax",
+          "total_payment"
+        ]
+      },
+      "Summary": {
+        "type": "object",
+        "properties": {
+          "numberOfSales": {
+            "type": "integer"
+          },
+          "totalPayment": {
+            "type": "number",
+            "format": "double"
+          },
+          "group": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "numberOfSales",
+          "totalPayment",
+          "group"
+        ]
+      },
+      "ErrorMessage": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A message describing the reason for the error."
+          }
+        }
+      }
+    }
+  }
+}

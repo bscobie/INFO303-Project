@@ -1,0 +1,18 @@
+plugins {
+	id 'application'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation project(':common')
+
+	implementation group: 'com.launchdarkly', name: 'okhttp-eventsource', version: '2.5.0'
+	implementation group: 'org.apache.activemq', name: 'activemq-client', version: '5.17.1'
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+}
+
+mainClassName = 'bridge.BridgeService'

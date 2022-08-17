@@ -1,0 +1,12 @@
+.gradle
+.nb-gradle
+.classpath
+.project
+nbproject
+build
+bin
+dist
+*.zip
+*.tgz
+*.class
+.DS_Store

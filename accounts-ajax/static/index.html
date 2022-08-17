@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Account!</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/external/vue.global.js"></script>
+        <script src="js/external/axios.js"></script>
+    </head>
+    <body>
+        <main>
+            <h1>Add a New Account</h1>
+
+            <fieldset>
+                <legend>Account Details</legend>
+                <form @submit.prevent="addAccount()">
+                    <label>Email:</label><input type="text" v-model="account.email">
+                    <label>Username:</label><input type="text" v-model="account.username">
+                    <label>First Name:</label><input type="text" v-model="account.firstName">
+                    <label>Last Name:</label><input type="text" v-model="account.lastName">
+                    <button>Create Account</button>
+                </form>
+            </fieldset>
+        </main>
+        <script type="module" src="js/external/account.js"></script>
+    </body>
+</html>

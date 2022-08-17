@@ -1,0 +1,27 @@
+plugins {
+	id 'application'
+}
+
+dependencies {
+	implementation project(':common')
+
+	// jooby
+	def joobyVer =  '2.13.0'
+	implementation group: 'io.jooby', name: 'jooby', version: joobyVer
+	implementation group: 'io.jooby', name: 'jooby-netty', version: joobyVer
+	implementation group: 'io.jooby', name: 'jooby-gson', version: joobyVer
+	implementation group: 'io.jooby', name: 'jooby-graphql', version: joobyVer
+	implementation group: 'io.jooby', name: 'jooby-graphiql', version: joobyVer
+
+	// logging
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+
+	// guava
+	implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
+	// Jackson data binding
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2'
+}
+
+mainClassName = 'service.AccountsService'

@@ -1,0 +1,12 @@
+mutation {
+  addAccount(
+    account: {id: "id", email: "email@example.com", username: "username", firstName: "first name", lastName: "last name", group: "group"}
+  ) {
+    id
+    email
+    username
+    firstName
+    lastName
+    group
+  }
+}

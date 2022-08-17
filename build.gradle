@@ -1,0 +1,91 @@
+plugins {
+	id 'java'
+}
+
+allprojects {
+
+	repositories {
+		mavenCentral()
+	}
+
+	/* convenience tasks */
+
+	tasks.register("createMissingSourceDirs") {
+		group = "Directories"
+		description = "Create all of the missing source directories for this project."
+		doFirst {
+			sourceSets.each { def sourceRoot ->
+				sourceRoot.allSource.srcDirTrees.each { def sourceDir ->
+					if(!sourceDir.dir.exists()) {
+						println "Creating ${sourceDir}"
+						mkdir sourceDir.dir
+					}
+				}
+			}
+		}
+	}
+
+	tasks.register("deleteEmptySourceDirs") {
+		group = "Directories"
+		description = "Delete all empty source directories."
+		doFirst {
+			sourceSets.each { def sourceRoot ->
+				sourceRoot.allSource.srcDirTrees.each { def sourceDir ->
+					if(sourceDir.dir.exists() && sourceDir.dir.isDirectory() && sourceDir.dir.list().length == 0) {
+						println "Removing empty ${sourceDir}"
+						sourceDir.dir.delete()
+					}
+				}
+			}
+		}
+	}
+
+	tasks.register("openProjectDir") {
+		group = "Directories"
+		description = "Open the project root in the system file manager."
+		doFirst {
+			println('Opening: ' + file(projectDir))
+			java.awt.Desktop.getDesktop().open(file(projectDir));
+		}
+	}
+
+	tasks.register("openBuildDir") {
+		group = "Directories"
+		description = "Open the build directory in the system file manager."
+		doFirst {
+			println('Opening: ' + file(buildDir))
+			java.awt.Desktop.getDesktop().open(file(buildDir));
+		}
+	}
+
+def gitIgnored=
+"""
+.gradle
+.nb-gradle
+.classpath
+.project
+nbproject
+build
+bin
+dist
+*.zip
+*.tgz
+*.class
+.DS_Store
+"""
+
+	tasks.register("createGitIgnore") {
+		group = "Git"
+		description = "Create the project's .gitignore file."
+		doLast {
+			def file = new File(projectDir, ".gitignore")
+			if ( !file.exists() ) {
+				println('Creating .gitignore')
+				file.text = gitIgnored
+			} else {
+				println('.gitignore already exists')
+			}
+		}
+	}
+
+}

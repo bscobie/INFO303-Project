@@ -1,0 +1,51 @@
+plugins {
+	id 'application'
+}
+
+configurations {
+	// using slf4j to unify the logging, so prevent clogging from being used
+	all*.exclude module:'commons-logging'
+}
+
+dependencies {
+	def camelVer = '3.16.0'
+	def slf4jVer = '1.7.36'
+	def logbackVer = '1.2.11'
+
+	// include the common project
+	implementation project(':common')
+
+	// Camel core (meta-package that includes most of the useful stuff)
+	implementation group: 'org.apache.camel', name: 'camel-core', version: camelVer
+
+	// Camel JMS support
+	implementation group: 'org.apache.camel', name: 'camel-jms', version: camelVer
+	implementation group: 'org.apache.camel', name: 'camel-activemq', version: camelVer
+
+	// Camel JSON support
+	implementation group: 'org.apache.camel', name: 'camel-gson', version: camelVer
+	implementation group: 'org.apache.camel', name: 'camel-jsonpath', version: camelVer
+
+	// Camel Jetty support
+	implementation group: 'org.apache.camel', name: 'camel-jetty', version: camelVer
+
+	// Camel HTTP client support (for REST services)
+	implementation group: 'org.apache.camel', name: 'camel-http', version: camelVer
+
+	// Camel GraphQL support
+	implementation group: 'org.apache.camel', name: 'camel-graphql', version: camelVer
+
+	// logging
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVer
+	implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4jVer
+	implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVer
+
+	// Java Activation
+	implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+}
+
+run {
+	  standardInput = System.in
+}
+
+mainClassName = "router.Router"

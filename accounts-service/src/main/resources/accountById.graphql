@@ -1,0 +1,10 @@
+query {
+  accountById(id: "id") {
+    id
+    email
+    username
+    firstName
+    lastName
+    group
+  }
+}

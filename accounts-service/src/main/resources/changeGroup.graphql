@@ -1,0 +1,10 @@
+mutation {
+  changeGroup(id: "id", newGroup: "new") {
+    id
+    email
+    username
+    firstName
+    lastName
+    group
+  }
+}

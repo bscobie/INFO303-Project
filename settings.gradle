@@ -1,0 +1,9 @@
+rootProject.name = 'INFO303 Phase 2'
+include 'common'
+include 'accounts-service'
+include 'sales-service'
+include 'sales-test'
+include 'accounts-ajax'
+include 'router'
+include 'sse-jms-bridge'
+

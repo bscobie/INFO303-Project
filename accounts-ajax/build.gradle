@@ -1,0 +1,25 @@
+plugins {
+	id 'application'
+}
+
+sourceSets {
+	'static' {
+		resources {
+			srcDirs = ['static']
+		}
+		java{
+			srcDirs = []
+		}
+	}
+}
+
+dependencies {
+	implementation project (':common')
+
+	def joobyVer =  '2.13.0'
+	implementation group: 'io.jooby', name: 'jooby-netty', version: joobyVer
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+}
+
+mainClassName = 'server.AjaxWebServer'

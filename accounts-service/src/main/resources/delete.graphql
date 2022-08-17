@@ -1,0 +1,10 @@
+mutation {
+  delete(id: "id") {
+    id
+    email
+    username
+    firstName
+    lastName
+    group
+  }
+}

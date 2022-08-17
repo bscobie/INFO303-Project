@@ -1,0 +1,67 @@
+schema {
+	query: AccountQuery
+	mutation: AccountMutation
+}
+
+
+"""
+An existing account.
+"""
+type Account {
+	id: String!
+	email: String!
+	username: String!
+	firstName: String
+	lastName: String
+	group: String
+}
+
+"""
+A new Account.
+"""
+input NewAccount {
+	id: String!
+	email: String!
+	username: String!
+	firstName: String
+	lastName: String
+	group: String
+}
+
+
+"""
+Operations for querying the accounts.
+"""
+type AccountQuery {
+
+	"""
+	All Accounts.
+	"""
+	accounts: [Account]
+
+
+	"""
+	The account matching the given ID.
+	"""
+	accountById(id: String!): Account
+}
+
+"""
+Operations for updating the accounts.
+"""
+type AccountMutation {
+	"""
+	Delete a product from the catalogue.
+	"""
+	delete(id: String!): Account
+
+	"""
+	Add a new account.
+	"""
+	addAccount(account: NewAccount): Account
+
+	"""
+	Change the group for an account.
+	"""
+	changeGroup(id: String, newGroup: String): Account
+}

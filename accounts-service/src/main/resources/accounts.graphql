@@ -1,0 +1,10 @@
+query {
+  accounts {
+    id
+    email
+    username
+    firstName
+    lastName
+    group
+  }
+}
